@@ -1,4 +1,6 @@
- 
+#Design a program to develop Operator Precedence Matrix (OPM).
+#abc def
+
 def display(matrix, symbols):
     # Print header row
     print("  ", " ".join(symbols))
@@ -34,7 +36,7 @@ def main():
         ans = input("\nContinue? (y/n): ").lower()
 
     # Display productions
-    print("\n\nProductions are:")
+    print("\nProductions are:")
     for lhs, rhs in productions:
         print(f"\n{lhs} -> {rhs}")
 

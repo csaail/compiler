@@ -1,4 +1,5 @@
-#Practical 5: Design a program to develop Simple Precedence Matrix (SPM).#
+#Practical 5: Design a program to develop Simple Precedence Matrix (SPM).
+# S->aS, X->aX, B->!*
 
 class Production:
     def __init__(self, lhs, rhs):

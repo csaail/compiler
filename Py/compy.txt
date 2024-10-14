@@ -1,14 +1,14 @@
 #Design a program to convert the given Right Linear Grammar into Left Linear Grammar
+#A=cB, S=eF, A=cB
 
 def print_productions():
     print("Saail Chavan KFPMSCCS016")
     
-    # Getting the number of productions
-    n = int(input("\nEnter the number of productions you want to convert: "))
+    n = int(input("Enter the number of productions you want to convert: "))
     
-    prod = []  # To store productions
+    prod = []
     for i in range(n):
-        prod.append(input(f"\nEnter production number {i + 1} in the form of (X = bY): "))  # Example: A=cB, S=eF
+        prod.append(input(f"\nEnter production number {i + 1} in the form of (X = bY): ")) 
     
     print("\n\nThe number of productions are as below:")
     for i in range(n):
@@ -16,17 +16,19 @@ def print_productions():
     
     print("\n\nLeft linear grammar is -->")
     for i in range(n):
-        left, right = prod[i].split('=')  # Splitting production into non-terminal and production part
-        print(f"{left.strip()} --> {right.strip()}")  # Output production
+        left, right = prod[i].split('=') 
+        print(f"{left.strip()} --> {right.strip()}") 
 
 
 if __name__ == "__main__":
     print_productions()
 
 
-#Design a program to check given input is identifier, constants, reserved keywords, and operators.
 
+#Design a program to check given input is identifier, constants, reserved keywords, and operators.
 #Identifier
+#compiler, Saail_Chavan
+#124_compiler, @saail
 
 def is_valid_identifier(s):
     # Check if the first character is a letter
@@ -53,8 +55,9 @@ if __name__ == "__main__":
 
 
 
-#constants:
-
+#Design a program to check given input is identifier, constants, reserved keywords, and operators.
+#12345,  124asf
+#Constants
 
 def pcon():
     flag = True
@@ -78,7 +81,9 @@ if __name__ == "__main__":
     pcon()
 
 
-#operators
+#Design a program to check given input is identifier, constants, reserved keywords, and operators.
+#>=  &&
+#Operators
 
 def opr():
     operators = ["+", "-", "/", "*", "<=", ">=", "<", ">", "==", "!="]
@@ -95,7 +100,10 @@ if __name__ == "__main__":
     opr()
 
 
-#reserved keywords
+
+#Design a program to check given input is identifier, constants, reserved keywords, and operators.
+#compiler, break
+#Reserved keywords
 
 def res():
     reserved_keywords = ["printf", "scanf", "if", "else", "break"]
@@ -113,6 +121,7 @@ if __name__ == "__main__":
 
 
 #Design a lexical analyzer to recognize the token defined by the given program.
+#Saail Chavan, Saail007
 
 def is_valid_identifier(s):
     # Check if the first character is a letter
@@ -159,9 +168,7 @@ if __name__ == "__main__":
     main()
 
 
-
-#Design a program to minimize the given DFA
-
+#Design a program to minimize the given DFA.
 
 def state_no(cc, dfa):
     return next((i for i in range(5) if dfa[i][0] == cc), -1)
@@ -194,172 +201,95 @@ if __name__ == "__main__":
     main()
 
 
-#Design a program to develop Simple Precedence Matrix(SPM)
+#Practical 5: Design a program to develop Simple Precedence Matrix (SPM).
+# S->aS, X->aX, B->!*
 
+class Production:
+    def __init__(self, lhs, rhs):
+        self.lhs = lhs
+        self.rhs = rhs
 
 def display(matrix, symbols):
     print("Display Matrix:")
-    # Print header
-    print("  ", " ".join(symbols))
-    
-    # Print each row with corresponding symbol
-    for i, sym in enumerate(symbols):
-        print(f"{sym} ", " ".join(map(str, matrix[i])))
+    print(" ", " ".join(symbols))
+    for i, row in enumerate(matrix):
+        print(symbols[i], " ".join(map(str, row)))
 
 def main():
     productions = []
-    first = [[0] * 20 for _ in range(20)]
-    firstp = [[0] * 20 for _ in range(20)]
-    firsts = [[0] * 20 for _ in range(20)]
-    last = [[0] * 20 for _ in range(20)]
-    lastp = [[0] * 20 for _ in range(20)]
-    lasts = [[0] * 20 for _ in range(20)]
-    equals = [[0] * 20 for _ in range(20)]
-    lt = [[0] * 20 for _ in range(20)]
-    gt = [[0] * 20 for _ in range(20)]
-    temp = [[0] * 20 for _ in range(20)]
-    spm = [['0'] * 20 for _ in range(20)]
-    symbols = []
-    tot = 0
-    
-    # Input productions
+    symbols = set()
+
     while True:
-        print("Saail Chavan KFPMSCCS016")
-        lhs = input("Enter LHS: ")
-        rhs = input("Enter RHS: ")
-        productions.append((lhs, rhs))
-        tot += 1
+        lhs, rhs = input("\nEnter production (LHS RHS): ").split()
+        productions.append(Production(lhs, rhs))
+        symbols.add(lhs)
+        symbols.update(rhs)
         ans = input("Continue? (y/n): ")
-        if ans.lower() != 'n':
+        if ans.lower() != 'y':
             break
-    
-    # Display productions
+
     print("\nProductions are:")
-    for lhs, rhs in productions:
-        print(f"{lhs} -> {rhs}")
-    
-    # Extract unique symbols
-    symbols.append(productions[0][0][0])
-    
-    for lhs, rhs in productions:
-        if lhs[0] not in symbols:
-            symbols.append(lhs[0])
-        for char in rhs:
-            if char not in symbols:
-                symbols.append(char)
-    
-    print("\nsym final:")
-    print("\t", "\t".join(symbols))
-    
-    # Initialize matrices
-    for i in range(20):
-        for j in range(20):
-            first[i][j] = firstp[i][j] = firsts[i][j] = 0
-            last[i][j] = lastp[i][j] = lasts[i][j] = 0
-            equals[i][j] = lt[i][j] = gt[i][j] = 0
-            spm[i][j] = '0'
+    for prod in productions:
+        print(f"{prod.lhs} -> {prod.rhs}")
+
+    symbols = list(symbols)
+    cnt = len(symbols)
+    first = [[0] * cnt for _ in range(cnt)]
+    last = [[0] * cnt for _ in range(cnt)]
+    equals = [[0] * cnt for _ in range(cnt)]
+    lt = [[0] * cnt for _ in range(cnt)]
+    gt = [[0] * cnt for _ in range(cnt)]
+    spm = [['0'] * cnt for _ in range(cnt)]
 
     # Compute FIRST matrix
-    for lhs, rhs in productions:
-        i = symbols.index(lhs[0])
-        j = symbols.index(rhs[0])
-        first[i][j] = 1
-    
+    for prod in productions:
+        lhs_index = symbols.index(prod.lhs)
+        rhs_index = symbols.index(prod.rhs[0]) if prod.rhs else -1
+        if rhs_index != -1:
+            first[lhs_index][rhs_index] = 1
+
     print("\n\nFIRST MATRIX:")
     display(first, symbols)
 
-    # Copy FIRST to FIRSTP
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
-            firstp[i][j] = first[i][j]
-
-    # Compute FIRST PLUS matrix
-    for i in range(1, len(symbols)):
-        for j in range(len(symbols)):
-            if firstp[j][i] == 1:
-                for k in range(len(symbols)):
-                    firstp[j][k] |= firstp[i][k]
-    
-    print("\n\nFIRST PLUS MATRIX:")
-    display(firstp, symbols)
-
-    # Compute FIRST STAR matrix
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
-            firsts[i][j] = firstp[i][j]
-            if i == j:
-                firsts[i][j] = 1
-    
-    print("\n\nFIRST STAR MATRIX:")
-    display(firsts, symbols)
-
     # Compute LAST matrix
-    for lhs, rhs in productions:
-        i = symbols.index(lhs[0])
-        j = symbols.index(rhs[-1])
-        last[i][j] = 1
-    
+    for prod in productions:
+        lhs_index = symbols.index(prod.lhs)
+        rhs_index = symbols.index(prod.rhs[-1]) if prod.rhs else -1
+        if rhs_index != -1:
+            last[lhs_index][rhs_index] = 1
+
     print("\n\nLAST MATRIX:")
     display(last, symbols)
 
-    # Copy LAST to LASTP
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
-            lastp[i][j] = last[i][j]
-
-    # Compute LAST PLUS matrix
-    for i in range(1, len(symbols)):
-        for j in range(len(symbols)):
-            if lastp[j][i] == 1:
-                for k in range(len(symbols)):
-                    lastp[j][k] |= lastp[i][k]
-    
-    print("\n\nLAST PLUS MATRIX:")
-    display(lastp, symbols)
-
-    # Compute LAST STAR matrix
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
-            lasts[i][j] = lastp[i][j]
-            if i == j:
-                lasts[i][j] = 1
-    
-    print("\n\nLAST STAR MATRIX:")
-    display(lasts, symbols)
-
     # Compute EQUALS matrix
-    for lhs, rhs in productions:
-        if len(rhs) > 1:
-            i = symbols.index(rhs[0])
-            j = symbols.index(rhs[1])
-            equals[i][j] = 1
-    
+    for prod in productions:
+        for i in range(len(prod.rhs) - 1):
+            lhs_index = symbols.index(prod.rhs[i])
+            rhs_index = symbols.index(prod.rhs[i + 1])
+            equals[lhs_index][rhs_index] = 1
+
     print("\n\nEQUALS MATRIX:")
     display(equals, symbols)
 
     # Compute LESS THAN matrix
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
-            lt[i][j] = sum(equals[i][k] * firstp[k][j] for k in range(len(symbols)))
-    
+    for i in range(cnt):
+        for j in range(cnt):
+            lt[i][j] = sum(equals[i][k] * first[k][j] for k in range(cnt))
+
     print("\n\nLESS THAN MATRIX:")
     display(lt, symbols)
 
     # Compute GREATER THAN matrix
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
-            temp[i][j] = sum(lastp[k][i] * equals[k][j] for k in range(len(symbols)))
-    
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
-            gt[i][j] = sum(temp[i][k] * firsts[k][j] for k in range(len(symbols)))
-    
+    for i in range(cnt):
+        for j in range(cnt):
+            gt[i][j] = sum(last[k][i] * equals[k][j] for k in range(cnt))
+
     print("\n\nGREATER THAN MATRIX:")
     display(gt, symbols)
 
     # Build SPM matrix
-    for i in range(len(symbols)):
-        for j in range(len(symbols)):
+    for i in range(cnt):
+        for j in range(cnt):
             if lt[i][j] == 1:
                 spm[i][j] = '<'
             elif gt[i][j] == 1:
@@ -367,19 +297,22 @@ def main():
             elif equals[i][j] == 1:
                 spm[i][j] = '='
             else:
-                spm[i][j] = '0'
-    
+                spm[i][j] = '0'  # No relation
+
     print("\n\nSPM MATRIX:")
-    for row in spm[:len(symbols)]:
-        print(" ".join(row[:len(symbols)]))
+    for row in spm:
+        print(" ".join(row))
 
 if __name__ == "__main__":
     main()
 
 
-#Design a program to develop Operator Precedence Matrix (OPM).
 
- 
+
+
+#Design a program to develop Operator Precedence Matrix (OPM).
+#abc def
+
 def display(matrix, symbols):
     # Print header row
     print("  ", " ".join(symbols))
@@ -408,14 +341,14 @@ def main():
     # Input productions
     while ans == 'n':
         print("Saail Chavan KFPMSCCS016")
-        lhs = input("\n\nEnter LHS: ")
+        lhs = input("Enter LHS: ")
         rhs = input("Enter RHS: ")
         productions.append((lhs, rhs))
         tot += 1
         ans = input("\nContinue? (y/n): ").lower()
 
     # Display productions
-    print("\n\nProductions are:")
+    print("\nProductions are:")
     for lhs, rhs in productions:
         print(f"\n{lhs} -> {rhs}")
 
@@ -442,7 +375,14 @@ def main():
 if __name__ == "__main__":
     main()
 
+
+
+
+
+
+
 #Design a program to find FIRST and FOLLOW of all productions.
+#abc, ;
 
 def check_punctuator():
     punctuators = [".", ",", ";", "(", ")", "{", "}", "[", "]"]
@@ -465,7 +405,10 @@ if __name__ == "__main__":
     print("Saail Chavan KFPMSCCS016")
     check_punctuator()
 
-#Design a program to generate Directed Acyclic Graph (DAG).
+
+
+#Design a program to generate Directed Acyclic Graph (DAG)
+# ab+bc, dg-hj+, q
 
 class DAG:
     def __init__(self):
@@ -532,7 +475,10 @@ if __name__ == "__main__":
     dag.tablestruct()
 
 
+
+
 #Design a program to convert any expression into Three Address Code.
+#ab+c-, ab+cd*-, sd-gh-kp++*
 
 def generate_three_address_code(expr):
     sarr, code, j = [], [], 0
@@ -551,8 +497,8 @@ if __name__ == "__main__":
     expr = input("Enter The Postfix Expression: ")
     generate_three_address_code(expr)
 
-#Design a program to implement Loop Jamming and Loop Unrolling
-#Loop Jamming 
+
+
 import time
 
 def main():
@@ -578,7 +524,9 @@ if __name__ == "__main__":
 
 
 
-#Loop Unrolling
+
+
+
 import time
 
 def main():

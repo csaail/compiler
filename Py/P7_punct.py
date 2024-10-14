@@ -1,4 +1,5 @@
 #Design a program to find FIRST and FOLLOW of all productions.
+#abc, ;
 
 def check_punctuator():
     punctuators = [".", ",", ";", "(", ")", "{", "}", "[", "]"]

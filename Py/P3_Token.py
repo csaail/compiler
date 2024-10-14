@@ -1,4 +1,5 @@
 #Design a lexical analyzer to recognize the token defined by the given program.
+#Saail Chavan, Saail007
 
 def is_valid_identifier(s):
     # Check if the first character is a letter

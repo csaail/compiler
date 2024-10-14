@@ -1,3 +1,6 @@
+#Design a program to generate Directed Acyclic Graph (DAG)
+# ab+bc, dg-hj+, q
+
 class DAG:
     def __init__(self):
         self.i = self.j = self.k = 0

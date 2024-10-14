@@ -1,4 +1,5 @@
 #Design a program to convert any expression into Three Address Code.
+#ab+c-, ab+cd*-, sd-gh-kp++*
 
 def generate_three_address_code(expr):
     sarr, code, j = [], [], 0

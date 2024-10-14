@@ -1,3 +1,5 @@
+#Design a program to minimize the given DFA.
+
 def state_no(cc, dfa):
     return next((i for i in range(5) if dfa[i][0] == cc), -1)
 
