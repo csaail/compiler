@@ -1,0 +1,1065 @@
+#Design a program to convert the given Right Linear Grammar into Left Linear Grammar
+
+#include <stdio.h>
+#include <string.h>
+char Nt[10];
+char ts[10];
+char prod[50][10];
+int n;
+void print() {
+    printf("Saail Chavan KFPMSCCS016\n");
+    printf("\nEnter the number of productions you want to convert: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("\nEnter production number %d in the form of (X = bY): ", i + 1);
+        scanf("%s", prod[i]);  // Example: A=cB, S=eF
+    }
+    printf("\n\nThe number of productions are as below:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d) %s\n", i + 1, prod[i]);
+    }
+    printf("\n\nLeft linear grammar is -->\n");
+    for (int i = 0; i < n; i++) {
+        char *p = strtok(prod[i], "=");
+        if (p != NULL) {
+            char left = *p;  // First character (Non-terminal)
+            p = strtok(NULL, "=");
+            if (p != NULL) {
+                printf("%c --> %s\n", left, p);  // Output production
+            }
+        }
+    }
+}
+int main() {
+    print();
+    return 0;
+}
+
+#Design a program to check given input is identifier, constants, reserved keywords, and operators.
+
+#Identifier
+
+import java.util.*;
+
+class ident {
+    static boolean isValid(String str, int n) {
+
+        // If first character is invalid
+        if (!((str.charAt(0) >= 'a' && str.charAt(0) <= 'z')
+                || (str.charAt(0) >= 'A' && str.charAt(0) <= 'Z')))
+            return false;
+
+        // Traverse the string for the rest of the characters
+        for (int i = 1; i < str.length(); i++) {
+            if (!((str.charAt(i) >= 'a' && str.charAt(i) <= 'z')
+                    || (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z')
+                    || (str.charAt(i) >= '0' && str.charAt(i) <= '9')
+                    || str.charAt(i) == '_'))
+                return false;
+        }
+
+        // String is a valid identifier
+        return true;
+    }
+
+    public static void main(String args[]) {
+        System.out.println("Saail Chavan KFPMSCCS016\n");
+        System.out.println("Enter a string");
+        Scanner c = new Scanner(System.in);
+        String str = c.nextLine();
+        int n = str.length();
+
+        if (isValid(str, n))
+            System.out.println("Identifier");
+        else
+            System.out.println("Not an Identifier");
+    }
+}
+
+
+#Constants
+
+import java.io.*;
+import java.util.*;
+class pconst
+{
+public static void pcon()
+{
+	String str;
+	int flag=1;
+	System.out.print("Enter the string :: ");
+	Scanner s=new Scanner(System.in);
+	str=s.nextLine();
+	for (int i = 0; i < str.length(); i++) 
+    	{
+		if (!(str.charAt(i)>='0' && str.charAt(i)<='9'))
+        	{
+		flag=0;
+		}
+	}
+	if(flag==1)
+	System.out.println("Constant");
+	else
+	System.out.println("Not a Constant");
+}
+public static void main(String[] args)
+{	
+System.out.println("Saail Chavan KFPMSCCS016\n");
+pcon();
+}}
+
+
+#operators
+
+import java.io.*;
+import java.util.*;
+class oper
+{
+public static void opr()
+{
+	String[] a={"+","-","/","*","<=",">=","<",">","==","!="};
+	String str;
+	int i,flag=0;
+	System.out.println("Enter the opperator :: ");
+	Scanner s=new Scanner(System.in);
+	str=s.nextLine();
+	for(i=0;i<a.length;i++)
+	{
+		boolean c=str.equals(a[i]);
+		if(c){
+		flag=1;
+		break;
+		}
+		else	
+		flag=0;	
+	}
+	if(flag==1)
+	System.out.println("Operator");
+	else
+	System.out.println("Not an Operator");
+}
+public static void main(String[] args)
+{
+System.out.println("Saail Chavan KFPMSCCS016\n");
+opr();
+}
+}
+
+#reskey
+
+import java.io.*;
+import java.util.*;
+class reskey
+{
+public static void res()
+{
+	String[] a={"printf","scanf","if","else","break"};
+	String str;
+	int i,flag=0;
+	System.out.println("Enter the string :: ");
+	Scanner s=new Scanner(System.in);
+	str=s.nextLine();
+	for(i=0;i<a.length;i++)
+	{
+		boolean c=str.equals(a[i]);
+		if(c)
+		{
+		flag=1;
+		break;
+		}
+		else	
+		flag=0;	
+	}
+	if(flag==1)
+	System.out.println("Reserved Keyword");
+	else
+	System.out.println("Not a Reserved Keyword");
+}
+public static void main(String[] args)
+{
+System.out.println("Saail Chavan KFPMSCCS016\n");
+res();
+}}
+
+#Design a lexical analyzer to recognize the token defined by the given program.
+
+
+import java.util.*;
+class token
+{
+static boolean isValid(String str, int n)
+{
+
+	// If first character is invalid
+	if (!((str.charAt(0) >= 'a' && str.charAt(0) <= 'z')
+		|| (str.charAt(0)>= 'A' && str.charAt(0) <= 'Z')))
+		return false;
+
+	// Traverse the string for the rest of the characters
+	for (int i = 1; i < str.length(); i++)
+	{
+		if (!((str.charAt(i) >= 'a' && str.charAt(i) <= 'z')
+			|| (str.charAt(i) >= 'A' && str.charAt(i) <= 'Z')
+			|| (str.charAt(i) >= '0' && str.charAt(i) <= '9')
+			|| str.charAt(i) == '_'))
+			return false;
+	}
+
+	// String is a valid identifier
+	return true;
+}
+
+public static boolean opr(String str)
+{
+	String[] a={"+","-","/","*","<=",">=","<",">","==","!="};
+	int i;
+	boolean flag=false;
+	for(i=0;i<a.length;i++)
+	{
+		boolean c=str.equals(a[i]);
+		if(c)
+		{
+		flag=true;
+		break;
+		}
+		else	
+		flag=false;	
+	}
+return flag;
+}
+
+
+public static boolean punc(String str)
+{
+	String[] a={".",",",";","(",")","{","}","[","]"};
+	int i;
+	boolean flag=false;
+	for(i=0;i<a.length;i++)
+	{
+		boolean c=str.equals(a[i]);
+		if(c)
+		{
+			flag=true;
+			break;
+		}
+		else	
+		flag=false;	
+	}
+return flag;
+}
+
+public static boolean res(String str)
+{
+	String[] a={"printf","scanf","if","else","break"};
+	int i;
+	boolean flag=false;
+	for(i=0;i<a.length;i++)
+	{
+		boolean c=str.equals(a[i]);
+		if(c)
+		{
+		flag=true;
+		break;
+		}
+		else	
+		flag=false;	
+	}
+return flag;
+}
+
+public static boolean pcon(String str)
+{
+	boolean flag=true;
+	for (int i = 0; i < str.length(); i++) 
+    	{
+		if (!(str.charAt(i)>='0' && str.charAt(i)<='9'))
+        	{
+		flag=false;
+		}
+	
+	}
+return flag;
+}
+
+public static void main(String args[])
+{
+	System.out.println("Enter a string");
+	Scanner c=new Scanner(System.in);
+	String str = c.nextLine();
+	int n = str.length();
+
+	if (isValid(str, n)||res(str)||punc(str)||opr(str)||pcon(str))
+		System.out.println(str+" Is a Token");
+	else
+		System.out.println(str+" is Not a Token");
+}
+}
+
+
+#Design a program to minimize the given DFA
+
+
+
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+int state_no(char);
+char dfa[5][4] = { "ABC", "BBD", "CBC", "DBE", "EBC" };
+
+int main() {
+    int i, j, k, l, a, b, c, d, e;
+    char final_state[5];
+    final_state[0] = 'E';
+    final_state[1] = '\0';  // Null-terminated string
+    char group[4][4] = {0}; // Initialize the group array to avoid garbage values
+    char new_group[5][4] = {0}; // Similar initialization
+    cout << "Saail Chavan KFPMSCCS016" << endl;
+    cout << "********* DFA *******" << endl;
+    cout << "" << "\t" << "a" << "\t" << "b" << endl;
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j <= 2; j++) {
+            cout << dfa[i][j] << "\t";
+        }
+        cout << endl;
+    }
+    cout << "Give Final State= " << final_state << endl;
+    // This part is finding the minimal DFA
+    k = 0;
+    l = 0;
+    for (i = 0; i <= 4; i++) {
+        for (j = 1; j < 3; j++) {
+            if (dfa[i][j] == final_state[k]) {
+                k++;
+                final_state[k] = dfa[i][0];
+                l++;
+                break;  // break loop and continue
+            }
+        }
+    }
+    c = 1; d = 0; e = 0;
+    for (a = 0; a <= 4; a++) {
+        for (b = 0; b <= 4; b++) {
+            if (b == a) continue;
+            if ((dfa[a][c] == dfa[b][c]) && (dfa[a][c + 1] == dfa[b][c + 1])) {
+                group[d][e] = dfa[a][0];
+                e++;
+                group[d][e] = dfa[b][0];
+                d++;
+                break;
+            }
+        }
+    }
+    // Sorting the final states
+    for (int q = 0; q < 4; q++) {
+        for (int m = 0; m < 4; m++) {
+            if (final_state[q] < final_state[m]) {
+                char temp = final_state[q];
+                final_state[q] = final_state[m];
+                final_state[m] = temp;
+            }
+        }
+    }
+    cout << endl << endl << "********** MIN DFA ***********" << endl;
+    cout << " " << "\ta\tb" << endl;
+    // Printing the minimized DFA
+    for (int o = 0; o <= 3; o++) {
+        int ff = state_no(final_state[o]);
+        if (dfa[ff][1] == group[0][1])
+            dfa[ff][1] = group[0][0];
+        if (dfa[ff][2] == group[0][1])
+            dfa[ff][2] = group[0][0];
+        cout << final_state[o] << "\t" << dfa[ff][1] << "\t" << dfa[ff][2] << endl;
+    }
+    return 0;
+}
+int state_no(char cc) {
+    for (int aa = 0; aa <= 4; aa++) {
+        if (dfa[aa][0] == cc) {
+            return aa;
+        }
+    }
+    return -1;  // Return -1 if state is not found
+}
+
+
+
+
+
+
+#Design a program to develop Simple Precedence Matrix(SPM)
+
+
+
+#include <stdio.h>
+#include <string.h>
+
+struct prod {
+    char lhs[50];
+    char rhs[50];
+} p[30];
+
+int first[20][20], firstp[20][20], firsts[20][20], last[20][20], lastp[20][20], lasts[20][20], equals[20][20], lt[20][20], gt[20][20], temp[20][20];
+char spm[20][20];
+int tot = 0, i, j, k, cnt = 0, flag = 0, sum = 0;
+char sym[30], ans = 'y';
+
+void display(int mat[20][20]) {
+    printf("Display Matrix:\n");
+    for (i = 0; i < strlen(sym); i++) {
+        printf(" %c", sym[i]);
+    }
+    printf("\n");
+    for (i = 0; i < strlen(sym); i++) {
+        printf("%c ", sym[i]);
+        for (j = 0; j < strlen(sym); j++) {
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    tot = 0;
+
+    while (ans == 'y') {        
+        printf("Saail Chavan KFPMSCCS016");
+        printf("\nEnter production (LHS RHS): ");
+        scanf("%s %s", p[tot].lhs, p[tot].rhs);
+        tot++;
+        printf("Continue? (y/n): ");
+        ans = getchar(); // Use getchar() to get the character input
+        while (getchar() != '\n'); // Clear buffer
+    }
+
+    printf("\nProductions are:\n");
+    for (i = 0; i < tot; i++) {
+        printf("%s -> %s\n", p[i].lhs, p[i].rhs);
+    }
+
+    cnt = 0;
+    sym[cnt++] = p[0].lhs[0];
+
+    for (i = 0; i < tot; i++) {
+        flag = 0;
+        for (j = 0; j < cnt; j++) {
+            if (sym[j] == p[i].lhs[0]) {
+                flag = 1;
+                break;
+            }
+        }
+        if (!flag) {
+            sym[cnt++] = p[i].lhs[0];
+        }
+
+        for (k = 0; k < strlen(p[i].rhs); k++) {
+            flag = 0;
+            for (j = 0; j < cnt; j++) {
+                if (sym[j] == p[i].rhs[k]) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (!flag) {
+                sym[cnt++] = p[i].rhs[k];
+            }
+        }
+    }
+
+    printf("\nsym final:\n");
+    for (i = 0; i < cnt; i++) {
+        printf("\t%c", sym[i]);
+    }
+
+    for (i = 0; i < 20; i++) {
+        for (j = 0; j < 20; j++) {
+            first[i][j] = firstp[i][j] = firsts[i][j] = 0;
+            last[i][j] = lastp[i][j] = lasts[i][j] = 0;
+            equals[i][j] = lt[i][j] = gt[i][j] = 0;
+            spm[i][j] = '0'; // Initialize to '0'
+        }
+    }
+
+    // Compute FIRST matrix
+    for (k = 0; k < tot; k++) {
+        for (i = 0; i < cnt; i++) {
+            for (j = 0; j < cnt; j++) {
+                if (p[k].lhs[0] == sym[i] && p[k].rhs[0] == sym[j]) {
+                    first[i][j] = 1;
+                }
+            }
+        }
+    }
+
+    printf("\n\nFIRST MATRIX:\n");
+    display(first);
+
+    // Copy FIRST to FIRSTP
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            firstp[i][j] = first[i][j];
+        }
+    }
+
+    // Compute FIRST PLUS matrix
+    for (i = 1; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            if (firstp[j][i] == 1) {
+                for (k = 0; k < cnt; k++) {
+                    firstp[j][k] |= firstp[i][k];
+                }
+            }
+        }
+    }
+
+    printf("\n\nFIRST PLUS MATRIX:\n");
+    display(firstp);
+
+    // Compute FIRST STAR matrix
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            firsts[i][j] = firstp[i][j];
+            if (i == j) {
+                firsts[i][j] = 1;
+            }
+        }
+    }
+
+    printf("\n\nFIRST STAR MATRIX:\n");
+    display(firsts);
+
+    // Compute LAST matrix
+    k = 0;
+    while (k < tot) {
+        for (i = 0; i < cnt; i++) {
+            for (j = 0; j < cnt; j++) {
+                if (p[k].lhs[0] == sym[i] && p[k].rhs[strlen(p[k].rhs) - 1] == sym[j]) {
+                    last[i][j] = 1;
+                    k++;
+                }
+            }
+        }
+    }
+
+    printf("\n\nLAST MATRIX:\n");
+    display(last);
+
+    // Copy LAST to LASTP
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            lastp[i][j] = last[i][j];
+        }
+    }
+
+    // Compute LAST PLUS matrix
+    for (i = 1; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            if (lastp[j][i] == 1) {
+                for (k = 0; k < cnt; k++) {
+                    lastp[j][k] |= lastp[i][k];
+                }
+            }
+        }
+    }
+
+    printf("\n\nLAST PLUS MATRIX:\n");
+    display(lastp);
+
+    // Compute LAST STAR matrix
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            lasts[i][j] = lastp[i][j];
+            if (i == j) {
+                lasts[i][j] = 1;
+            }
+        }
+    }
+
+    printf("\n\nLAST STAR MATRIX:\n");
+    display(lasts);
+
+    // Compute EQUALS matrix
+    for (cnt = 0; cnt < tot; cnt++) {
+        k = 0;
+        if (strlen(p[cnt].rhs) > 1) {
+            for (i = 0; i < cnt; i++) {
+                for (j = 0; j < cnt; j++) {
+                    if (p[cnt].rhs[k] == sym[i] && p[cnt].rhs[k + 1] == sym[j]) {
+                        equals[i][j] = 1;
+                        k++;
+                    }
+                }
+            }
+        }
+    }
+
+    printf("\n\nEQUALS MATRIX:\n");
+    display(equals);
+
+    // Compute LESS THAN matrix
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            sum = 0;
+            for (k = 0; k < cnt; k++) {
+                sum += equals[i][k] * firstp[k][j];
+            }
+            lt[i][j] = sum;
+        }
+    }
+
+    printf("\n\nLESS THAN MATRIX:\n");
+    display(lt);
+
+    // Compute GREATER THAN matrix
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            sum = 0;
+            for (k = 0; k < cnt; k++) {
+                sum += lastp[k][i] * equals[k][j];
+            }
+            temp[i][j] = sum;
+        }
+    }
+
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            sum = 0;
+            for (k = 0; k < cnt; k++) {
+                sum += temp[i][k] * firsts[k][j];
+            }
+            gt[i][j] = sum;
+        }
+    }
+
+    printf("\n\nGREATER THAN MATRIX:\n");
+    display(gt);
+
+    // Build SPM matrix
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            if (lt[i][j] == 1) spm[i][j] = '<';
+            else if (gt[i][j] == 1) spm[i][j] = '>';
+            else if (equals[i][j] == 1) spm[i][j] = '=';
+            else spm[i][j] = '0'; // No relation
+        }
+    }
+
+    printf("\n\nSPM MATRIX:\n");
+    for (i = 0; i < cnt; i++) {
+        for (j = 0; j < cnt; j++) {
+            printf("%c ", spm[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
+
+#Design a program to develop Operator Precedence Matrix (OPM).
+#include <stdio.h>
+#include <string.h>
+
+struct prod {
+    char lhs[50];
+    char rhs[50];
+} p[30];
+int first[20][20], firstp[20][20], firsts[20][20], last[20][20], lastp[20][20], lasts[20][20], equals[20][20], lt[20][20], gt[20][20];
+char opm[20][20];
+int tot, i, j, k, cnt = 0, flag = 0, sum = 0;
+char sym[30], ans = 'y', ch = '\0';
+
+void display(int mat[20][20]) {
+    for (i = 0; i < strlen(sym); i++) {
+        printf(" %c", sym[i]);
+    }
+    printf("\n");
+    for (i = 0; i < strlen(sym); i++) {
+        printf("%c ", sym[i]);
+        for (j = 0; j < strlen(sym); j++) {
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    tot = 0;
+
+    while (ans == 'y') {
+        printf("Saail Chavan KFPMSCCS016");
+        printf("\n\n Enter production (LHS RHS) : ");
+        scanf("%s %s", p[tot].lhs, p[tot].rhs);
+        tot++;
+        printf("\n continue? (y/n) : ");
+        ans = getchar();
+        // Clear the buffer
+        while (getchar() != '\n');
+    }
+
+    printf("\n\n Productions are : ");
+    for (i = 0; i < tot; i++)
+        printf("\n\n %s -> %s", p[i].lhs, p[i].rhs);
+
+    cnt = 0;
+    sym[cnt++] = p[0].lhs[0];
+
+    for (i = 0; i < tot; i++) {
+        flag = 0;
+        for (j = 0; j < strlen(sym); j++) {
+            if (sym[j] == p[i].lhs[0]) {
+                flag = 1;
+                break;
+            }
+        }
+        if (!flag) {
+            sym[cnt++] = p[i].lhs[0];
+        }
+        for (k = 0; k < strlen(p[i].rhs); k++) {
+            flag = 0;
+            for (j = 0; j < strlen(sym); j++) {
+                if (sym[j] == p[i].rhs[k]) {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (!flag) {
+                sym[cnt++] = p[i].rhs[k];
+            }
+        }
+    }
+    printf("\n\n sym final : \n");
+    for (i = 0; i < strlen(sym); i++) {
+        printf("\t%c", sym[i]);
+    }
+    // Initialize matrices
+    for (i = 0; i < 20; i++) {
+        for (j = 0; j < 20; j++) {
+            first[i][j] = firstp[i][j] = firsts[i][j] = last[i][j] = lastp[i][j] = lasts[i][j] = equals[i][j] = lt[i][j] = gt[i][j] = 0;
+            opm[i][j] = '0';  // Initialize operator matrix
+        }
+    }
+    return 0;
+}
+
+
+
+#Design a program to find FIRST and FOLLOW of all productions.
+
+
+import java.io.*;
+import java.util.*;
+class punct
+{
+public static void punc()
+{
+	String[] a={".",",",";","(",")","{","}","[","]"};
+	String str;
+	int i,flag=0;
+	System.out.println("Enter the punctuator :: ");
+	Scanner s=new Scanner(System.in);
+	str=s.nextLine();
+	for(i=0;i<a.length;i++)
+	{
+		boolean c=str.equals(a[i]);
+		if(c)
+		{
+		flag=1;
+		break;
+		}
+		else	
+		flag=0;	
+	}
+	if(flag==1)
+	System.out.println("Punctuator");
+	else
+	System.out.println("Not an Punctuator");
+}
+public static void main(String[] args)
+{
+System.out.println("Saail Chavan KFPMSCCS016\n");
+punc();
+}
+}
+
+
+#Design a program to generate Directed Acyclic Graph (DAG).
+
+import java.io.*;
+public class DAG
+{
+	int i,j,k;
+	int count=-1,flag=0;
+	String str[]=new String[10];
+	String table[][]=new String[10][10];
+	public DAG()
+	{
+		try
+		{
+		 BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); 
+		System.out.println("Saail Chavan KFPMSCCS016\n");
+		 System.out.println("Enter The Sequence of code:");
+		 System.out.println("Enter q to Quit");
+			for(i=0;i<str.length;i++)
+			{
+			  str[i]=br.readLine();
+			 if(str[i].equals("q"))
+			 break;
+			 else
+				 count++;
+		
+			}
+			System.out.println("The Sequence of code are:");
+			for(i=0;i<str.length;i++)
+			{
+		
+			if(str[i].equals("q"))
+			 break;
+			 System.out.println(str[i]);
+			}
+		}
+		catch(IOException e)
+		{}
+	}
+	public void tablestruct()
+	{
+		for(i=0;i<str.length;i++)
+		{
+			for(j=0;j<str.length;j++)
+			{
+				table[i][j]="";
+			}
+		}
+		try
+		{
+		for(i=0;i<=count;i++)
+		{
+			for(j=0;j<=count+1;j++)
+			{
+				if(str[i].length()==3)//D=A
+				{
+					if(j==0)
+					table[i][j]=str[i].substring(0,1);
+					if(j==1)
+					table[i][j]=str[i].substring(1,2);
+					if(j==2)
+					table[i][j]=str[i].substring(2);
+				}
+				if(str[i].length()==5)//A=B+C
+				{
+					if(j==0)
+					table[i][j]=str[i].substring(0,1);
+					if(j==1)
+					table[i][j]=str[i].substring(3,4);
+					if(j==2)
+					table[i][j]=str[i].substring(2,3);
+					if(j==3)
+					table[i][j]=str[i].substring(4);
+				}
+			}
+		}
+		}
+		catch(NullPointerException e)
+		{}
+		
+		for(i=0;i<=count;i++)
+		{
+			for(j=i+1;j<=count;j++)
+			{
+				if(str[i].length()==5 && str[j].length()==5)
+				{
+					if(str[i].substring(2,5).equals(str[j].substring(2,5)))
+					{
+					 table[i][0]= table[i][0].concat(","+str[j].substring(0,1)+str[j].substring(4));
+					  for(k=0;k<=count;k++)
+						 table[j][k]="";
+					}
+				}
+			}
+				if(str[i].length()==3)
+				{
+
+					if(i==count)
+					{
+						for(j=count-1;j>=0;j--)
+						{
+							if(str[i].substring(2,3).equals(str[j].substring(0,1)))
+							{
+							  table[j][0]= table[j][0].concat(","+str[i].substring(0,1));
+							  for(k=0;k<=count;k++)
+								table[i][k]="";
+							}
+						}
+					}
+					else
+					{
+						for(j=i+1;j<=count;j++)
+						{
+							if(str[i].substring(2,3).equals(str[j].substring(0,1)))
+							{
+							  table[i][0]= table[i][0].concat(","+str[j].substring(0,1));
+							  for(k=0;k<=count;k++)
+								table[j][k]="";
+							}
+						}
+					}
+				}
+				
+			}
+		System.out.println();
+		System.out.print("Label"+"      "+"Operator"+"  "+"Left"+"  "+"Right");
+		System.out.println();
+		for(i=0;i<=count;i++)
+		{
+			for(j=0;j<=count+1;j++)
+			{
+				System.out.print(table[i][j]+"\t      ");
+			}
+			System.out.println();
+		}
+	}
+	public static void main(String arg[])
+	{
+		DAG d=new DAG();
+		d.tablestruct();
+	}
+}
+
+#Design a program to convert any expression into Three Address Code.
+
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+char sarr[50][50];  // Stack to hold operands
+char arr[50];       // Input expression
+char code[10][10];  // Three-address code
+int top = 0;        // Stack pointer
+void push(char a[10]) {
+    strcpy(sarr[top], a);
+    top++;
+}
+void pop(char b[10]) {
+    top--;
+    strcpy(b, sarr[top]);
+}
+int main() {
+    int i, j = 0;
+    char oprgt[20], oplft[20], exp[50], temp[10];
+    printf("Saail Chavan KFPMSCCS016\n");
+    printf("Enter The Postfix Expression: ");
+    scanf("%s", arr);
+    printf("\nThree Address Code For Given Expression:\n\n");
+
+    for (i = 0; i < strlen(arr); i++) {
+        if (isalpha(arr[i]) || isdigit(arr[i])) {
+            temp[0] = arr[i];
+            temp[1] = '\0';
+            push(temp);
+        } else {
+            if (arr[i] == '+' || arr[i] == '-' || arr[i] == '*' || arr[i] == '/') {
+                temp[0] = arr[i];
+                temp[1] = '\0';
+                pop(oprgt);      // Right operand
+                pop(oplft);      // Left operand
+                sprintf(exp, "%s %s %s", oplft, temp, oprgt); // Create expression
+                sprintf(code[j], "T%d", j + 1);  // Generate temporary variable name
+                printf("%s = %s\n", code[j], exp); // Output the three-address code
+                push(code[j]);   // Push the result back to the stack
+                j++;
+            }
+        }
+    }
+    return 0;
+}
+
+#Design a program to implement Loop Jamming and Loop Unrolling
+
+#Loop Jamming
+
+public class loop_jamming 
+{
+	    public static void main(String[] args)
+ 	  {	
+		int[] array1 = { 10, 20, 30 };
+		int[] array2 = { 20, 10, 30 };
+		int[] array3 = { 40, 40, 10 };
+		long t1 = System.currentTimeMillis();
+		// Version 1: loop over each array separately.
+		for (int i = 0; i < 10000000; i++) 
+		{
+		    int sum = 0;
+		    for (int x = 0; x < array1.length; x++) 
+		   {
+			sum += array1[x];
+	  	   }
+	  	   for (int x = 0; x < array2.length; x++) 
+		  {
+			sum += array2[x];
+	    	  }
+	  	  for (int x = 0; x < array3.length; x++) 
+		  {
+			sum += array3[x];
+	   	   }
+	   	 if (sum != 210)
+		 {
+			System.out.println(false);
+	    	 }	    }
+	long t2 = System.currentTimeMillis();
+	// Version 2: jam loops together.
+	for (int i = 0; i < 10000000; i++)
+	 {
+	    int sum = 0;
+	    for (int x = 0; x < array1.length; x++)
+	     {
+		sum += array1[x];
+		sum += array2[x];
+		sum += array3[x];
+	    }
+	     if (sum != 210)
+	     {
+		System.out.println(false);
+	    }	 }
+	long t3 = System.currentTimeMillis();
+	System.out.println("Saail Chavan KFPMSCCS016");
+	System.out.println("Before loop jamming---->"+(t2 - t1));
+	System.out.println("After loop jamming---->"+ (t3 - t2));
+    }
+}
+
+
+#Loop Unrolling
+
+public class loop_unrolling 
+{
+    	public static void main(String[] args)
+ 	{
+	    int[] array1 = new int[5];
+	     long t1 = System.currentTimeMillis();
+
+	// Version 1: assign elements in a loop.
+	for (int i = 0; i < 10000000; i++) 
+	{
+	    for (int x = 0; x < array1.length; x++)
+	    {
+		array1[x] = x;
+	    }
+	}
+	long t2 = System.currentTimeMillis();
+
+	// Version 2: unroll the loop and use a list of statements.
+	for (int i = 0; i < 10000000; i++) 
+	{
+	    array1[0] = 0;
+	    array1[1] = 1;
+	    array1[2] = 2;
+	    array1[3] = 3;
+	    array1[4] = 4;
+	}
+	long t3 = System.currentTimeMillis();
+
+	// ... Times.
+	System.out.println("Saail Chavan KFPMSCCS016");
+	System.out.println("Time taken by processor before loop unrolling:-->  "+ (t2 - t1));
+	System.out.println("Time taken by processor after loop unrolling:-->  "+ (t3 - t2));
+    }
+}

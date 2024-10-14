@@ -1,0 +1,604 @@
+#Design a program to convert the given Right Linear Grammar into Left Linear Grammar
+
+def print_productions():
+    print("Saail Chavan KFPMSCCS016")
+    
+    # Getting the number of productions
+    n = int(input("\nEnter the number of productions you want to convert: "))
+    
+    prod = []  # To store productions
+    for i in range(n):
+        prod.append(input(f"\nEnter production number {i + 1} in the form of (X = bY): "))  # Example: A=cB, S=eF
+    
+    print("\n\nThe number of productions are as below:")
+    for i in range(n):
+        print(f"{i + 1}) {prod[i]}")
+    
+    print("\n\nLeft linear grammar is -->")
+    for i in range(n):
+        left, right = prod[i].split('=')  # Splitting production into non-terminal and production part
+        print(f"{left.strip()} --> {right.strip()}")  # Output production
+
+
+if __name__ == "__main__":
+    print_productions()
+
+
+#Design a program to check given input is identifier, constants, reserved keywords, and operators.
+
+#Identifier
+
+def is_valid_identifier(s):
+    # Check if the first character is a letter
+    if not (('a' <= s[0] <= 'z') or ('A' <= s[0] <= 'Z')):
+        return False
+
+    # Traverse the string for the rest of the characters
+    for i in range(1, len(s)):
+        if not (('a' <= s[i] <= 'z') or ('A' <= s[i] <= 'Z') or ('0' <= s[i] <= '9') or s[i] == '_'):
+            return False
+
+    # String is a valid identifier
+    return True
+
+
+if __name__ == "__main__":
+    print("Saail Chavan KFPMSCCS016")
+    str_input = input("Enter a string: ")
+
+    if is_valid_identifier(str_input):
+        print("Identifier")
+    else:
+        print("Not an Identifier")
+
+
+
+#constants:
+
+
+def pcon():
+    flag = True
+    str_input = input("Enter the string: ")
+
+    # Check if all characters are digits
+    for char in str_input:
+        if not ('0' <= char <= '9'):
+            flag = False
+            break
+
+    # Print the result based on the flag
+    if flag:
+        print("Constant")
+    else:
+        print("Not a Constant")
+
+
+if __name__ == "__main__":
+    print("Saail Chavan KFPMSCCS016")
+    pcon()
+
+
+#operators
+
+def opr():
+    operators = ["+", "-", "/", "*", "<=", ">=", "<", ">", "==", "!="]
+    str_input = input("Enter the operator: ")
+
+    if str_input in operators:
+        print("Operator")
+    else:
+        print("Not an Operator")
+
+
+if __name__ == "__main__":
+    print("Saail Chavan KFPMSCCS016")
+    opr()
+
+
+#reserved keywords
+
+def res():
+    reserved_keywords = ["printf", "scanf", "if", "else", "break"]
+    str_input = input("Enter the string: ")
+
+    if str_input in reserved_keywords:
+        print("Reserved Keyword")
+    else:
+        print("Not a Reserved Keyword")
+
+
+if __name__ == "__main__":
+    print("Saail Chavan KFPMSCCS016\n")
+    res()
+
+
+#Design a lexical analyzer to recognize the token defined by the given program.
+
+def is_valid_identifier(s):
+    # Check if the first character is a letter
+    if not (('a' <= s[0] <= 'z') or ('A' <= s[0] <= 'Z')):
+        return False
+
+    # Traverse the string for the rest of the characters
+    for char in s[1:]:
+        if not (('a' <= char <= 'z') or ('A' <= char <= 'Z') or ('0' <= char <= '9') or char == '_'):
+            return False
+
+    # String is a valid identifier
+    return True
+
+def is_operator(s):
+    operators = ["+", "-", "/", "*", "<=", ">=", "<", ">", "==", "!="]
+    return s in operators
+
+def is_punctuation(s):
+    punctuations = [".", ",", ";", "(", ")", "{", "}", "[", "]"]
+    return s in punctuations
+
+def is_reserved_keyword(s):
+    reserved_keywords = ["printf", "scanf", "if", "else", "break"]
+    return s in reserved_keywords
+
+def is_constant(s):
+    # Check if all characters are digits
+    for char in s:
+        if not ('0' <= char <= '9'):
+            return False
+    return True
+
+def main():
+    str_input = input("Enter a string: ")
+    # Check if the string is a valid identifier, reserved keyword, operator, punctuation, or constant
+    if (is_valid_identifier(str_input) or is_reserved_keyword(str_input) or
+            is_punctuation(str_input) or is_operator(str_input) or is_constant(str_input)):
+        print(f"{str_input} is a Token")
+    else:
+        print(f"{str_input} is Not a Token")
+
+if __name__ == "__main__":
+    main()
+
+
+
+#Design a program to minimize the given DFA
+
+
+def state_no(cc, dfa):
+    return next((i for i in range(5) if dfa[i][0] == cc), -1)
+
+def main():
+    dfa = [['A', 'B', 'C'], ['B', 'B', 'D'], ['C', 'B', 'C'], ['D', 'B', 'E'], ['E', 'B', 'C']]
+    final_state, group = ['E'], [[""] * 4 for _ in range(4)]
+    
+    print("Saail Chavan KFPMSCCS016\n********* DFA *******\n\ta\tb")
+    for row in dfa: print("\t".join(row))
+    
+    for i in range(5):  # Find final states
+        if dfa[i][1] == final_state[0] or dfa[i][2] == final_state[0]: final_state.append(dfa[i][0])
+    
+    final_state.sort()  # Sort final states
+
+    for a in range(5):  # Grouping equivalent states
+        for b in range(a + 1, 5):
+            if dfa[a][1:] == dfa[b][1:]: group[a][0], group[a][1] = dfa[a][0], dfa[b][0]
+
+    print("\n\n********** MIN DFA ***********\n\ta\tb")
+    for fs in final_state:
+        ff = state_no(fs, dfa)
+        if ff != -1:
+            if dfa[ff][1] == group[0][1]: dfa[ff][1] = group[0][0]
+            if dfa[ff][2] == group[0][1]: dfa[ff][2] = group[0][0]
+            print(f"{fs}\t{dfa[ff][1]}\t{dfa[ff][2]}")
+
+if __name__ == "__main__":
+    main()
+
+
+#Design a program to develop Simple Precedence Matrix(SPM)
+
+
+def display(matrix, symbols):
+    print("Display Matrix:")
+    # Print header
+    print("  ", " ".join(symbols))
+    
+    # Print each row with corresponding symbol
+    for i, sym in enumerate(symbols):
+        print(f"{sym} ", " ".join(map(str, matrix[i])))
+
+def main():
+    productions = []
+    first = [[0] * 20 for _ in range(20)]
+    firstp = [[0] * 20 for _ in range(20)]
+    firsts = [[0] * 20 for _ in range(20)]
+    last = [[0] * 20 for _ in range(20)]
+    lastp = [[0] * 20 for _ in range(20)]
+    lasts = [[0] * 20 for _ in range(20)]
+    equals = [[0] * 20 for _ in range(20)]
+    lt = [[0] * 20 for _ in range(20)]
+    gt = [[0] * 20 for _ in range(20)]
+    temp = [[0] * 20 for _ in range(20)]
+    spm = [['0'] * 20 for _ in range(20)]
+    symbols = []
+    tot = 0
+    
+    # Input productions
+    while True:
+        print("Saail Chavan KFPMSCCS016")
+        lhs = input("Enter LHS: ")
+        rhs = input("Enter RHS: ")
+        productions.append((lhs, rhs))
+        tot += 1
+        ans = input("Continue? (y/n): ")
+        if ans.lower() != 'n':
+            break
+    
+    # Display productions
+    print("\nProductions are:")
+    for lhs, rhs in productions:
+        print(f"{lhs} -> {rhs}")
+    
+    # Extract unique symbols
+    symbols.append(productions[0][0][0])
+    
+    for lhs, rhs in productions:
+        if lhs[0] not in symbols:
+            symbols.append(lhs[0])
+        for char in rhs:
+            if char not in symbols:
+                symbols.append(char)
+    
+    print("\nsym final:")
+    print("\t", "\t".join(symbols))
+    
+    # Initialize matrices
+    for i in range(20):
+        for j in range(20):
+            first[i][j] = firstp[i][j] = firsts[i][j] = 0
+            last[i][j] = lastp[i][j] = lasts[i][j] = 0
+            equals[i][j] = lt[i][j] = gt[i][j] = 0
+            spm[i][j] = '0'
+
+    # Compute FIRST matrix
+    for lhs, rhs in productions:
+        i = symbols.index(lhs[0])
+        j = symbols.index(rhs[0])
+        first[i][j] = 1
+    
+    print("\n\nFIRST MATRIX:")
+    display(first, symbols)
+
+    # Copy FIRST to FIRSTP
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            firstp[i][j] = first[i][j]
+
+    # Compute FIRST PLUS matrix
+    for i in range(1, len(symbols)):
+        for j in range(len(symbols)):
+            if firstp[j][i] == 1:
+                for k in range(len(symbols)):
+                    firstp[j][k] |= firstp[i][k]
+    
+    print("\n\nFIRST PLUS MATRIX:")
+    display(firstp, symbols)
+
+    # Compute FIRST STAR matrix
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            firsts[i][j] = firstp[i][j]
+            if i == j:
+                firsts[i][j] = 1
+    
+    print("\n\nFIRST STAR MATRIX:")
+    display(firsts, symbols)
+
+    # Compute LAST matrix
+    for lhs, rhs in productions:
+        i = symbols.index(lhs[0])
+        j = symbols.index(rhs[-1])
+        last[i][j] = 1
+    
+    print("\n\nLAST MATRIX:")
+    display(last, symbols)
+
+    # Copy LAST to LASTP
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            lastp[i][j] = last[i][j]
+
+    # Compute LAST PLUS matrix
+    for i in range(1, len(symbols)):
+        for j in range(len(symbols)):
+            if lastp[j][i] == 1:
+                for k in range(len(symbols)):
+                    lastp[j][k] |= lastp[i][k]
+    
+    print("\n\nLAST PLUS MATRIX:")
+    display(lastp, symbols)
+
+    # Compute LAST STAR matrix
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            lasts[i][j] = lastp[i][j]
+            if i == j:
+                lasts[i][j] = 1
+    
+    print("\n\nLAST STAR MATRIX:")
+    display(lasts, symbols)
+
+    # Compute EQUALS matrix
+    for lhs, rhs in productions:
+        if len(rhs) > 1:
+            i = symbols.index(rhs[0])
+            j = symbols.index(rhs[1])
+            equals[i][j] = 1
+    
+    print("\n\nEQUALS MATRIX:")
+    display(equals, symbols)
+
+    # Compute LESS THAN matrix
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            lt[i][j] = sum(equals[i][k] * firstp[k][j] for k in range(len(symbols)))
+    
+    print("\n\nLESS THAN MATRIX:")
+    display(lt, symbols)
+
+    # Compute GREATER THAN matrix
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            temp[i][j] = sum(lastp[k][i] * equals[k][j] for k in range(len(symbols)))
+    
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            gt[i][j] = sum(temp[i][k] * firsts[k][j] for k in range(len(symbols)))
+    
+    print("\n\nGREATER THAN MATRIX:")
+    display(gt, symbols)
+
+    # Build SPM matrix
+    for i in range(len(symbols)):
+        for j in range(len(symbols)):
+            if lt[i][j] == 1:
+                spm[i][j] = '<'
+            elif gt[i][j] == 1:
+                spm[i][j] = '>'
+            elif equals[i][j] == 1:
+                spm[i][j] = '='
+            else:
+                spm[i][j] = '0'
+    
+    print("\n\nSPM MATRIX:")
+    for row in spm[:len(symbols)]:
+        print(" ".join(row[:len(symbols)]))
+
+if __name__ == "__main__":
+    main()
+
+
+#Design a program to develop Operator Precedence Matrix (OPM).
+
+ 
+def display(matrix, symbols):
+    # Print header row
+    print("  ", " ".join(symbols))
+    
+    # Print matrix with corresponding symbol rows
+    for i, sym in enumerate(symbols):
+        print(f"{sym} ", " ".join(map(str, matrix[i])))
+
+def main():
+    productions = []
+    first = [[0] * 20 for _ in range(20)]
+    firstp = [[0] * 20 for _ in range(20)]
+    firsts = [[0] * 20 for _ in range(20)]
+    last = [[0] * 20 for _ in range(20)]
+    lastp = [[0] * 20 for _ in range(20)]
+    lasts = [[0] * 20 for _ in range(20)]
+    equals = [[0] * 20 for _ in range(20)]
+    lt = [[0] * 20 for _ in range(20)]
+    gt = [[0] * 20 for _ in range(20)]
+    opm = [['0'] * 20 for _ in range(20)]  # Operator precedence matrix
+    symbols = []
+    tot = 0
+    
+    ans = 'n'
+    
+    # Input productions
+    while ans == 'n':
+        print("Saail Chavan KFPMSCCS016")
+        lhs = input("\n\nEnter LHS: ")
+        rhs = input("Enter RHS: ")
+        productions.append((lhs, rhs))
+        tot += 1
+        ans = input("\nContinue? (y/n): ").lower()
+
+    # Display productions
+    print("\n\nProductions are:")
+    for lhs, rhs in productions:
+        print(f"\n{lhs} -> {rhs}")
+
+    # Extract unique symbols
+    symbols.append(productions[0][0][0])
+    
+    for lhs, rhs in productions:
+        if lhs[0] not in symbols:
+            symbols.append(lhs[0])
+        for char in rhs:
+            if char not in symbols:
+                symbols.append(char)
+
+    # Display final symbols
+    print("\n\nsym final:")
+    print("\t", "\t".join(symbols))
+
+    # Initialize matrices
+    for i in range(20):
+        for j in range(20):
+            first[i][j] = firstp[i][j] = firsts[i][j] = last[i][j] = lastp[i][j] = lasts[i][j] = equals[i][j] = lt[i][j] = gt[i][j] = 0
+            opm[i][j] = '0'  # Initialize operator precedence matrix
+
+if __name__ == "__main__":
+    main()
+
+#Design a program to find FIRST and FOLLOW of all productions.
+
+def check_punctuator():
+    punctuators = [".", ",", ";", "(", ")", "{", "}", "[", "]"]
+    flag = False
+
+    print("Enter the punctuator: ")
+    user_input = input().strip()
+
+    for punct in punctuators:
+        if user_input == punct:
+            flag = True
+            break
+
+    if flag:
+        print("Punctuator")
+    else:
+        print("Not a Punctuator")
+
+if __name__ == "__main__":
+    print("Saail Chavan KFPMSCCS016")
+    check_punctuator()
+
+#Design a program to generate Directed Acyclic Graph (DAG).
+
+class DAG:
+    def __init__(self):
+        self.i = self.j = self.k = 0
+        self.count = -1
+        self.str = [None] * 10  # Store input code sequences
+        self.table = [[""] * 10 for _ in range(10)]  # Initialize table for DAG
+
+        print("Saail Chavan KFPMSCCS016\n")
+        print("Enter the sequence of code:")
+        print("Enter 'q' to Quit")
+
+        # Input the sequence of code lines
+        for self.i in range(len(self.str)):
+            self.str[self.i] = input()
+            if self.str[self.i] == "q":
+                break
+            else:
+                self.count += 1
+
+        # Display the sequence of code
+        print("\nThe sequence of code is:")
+        for line in self.str:
+            if line == "q":
+                break
+            print(line)
+
+    def tablestruct(self):
+        # Fill the table based on code
+        for self.i in range(self.count + 1):
+            if len(self.str[self.i]) == 3:  # Case for D=A
+                self.table[self.i][0] = self.str[self.i][0]
+                self.table[self.i][1] = self.str[self.i][1]
+                self.table[self.i][2] = self.str[self.i][2]
+            elif len(self.str[self.i]) == 5:  # Case for A=B+C
+                self.table[self.i][0] = self.str[self.i][0]
+                self.table[self.i][1] = self.str[self.i][3]
+                self.table[self.i][2] = self.str[self.i][2]
+                self.table[self.i][3] = self.str[self.i][4]
+
+        # Optimization: Removing redundant computations
+        for self.i in range(self.count + 1):
+            for self.j in range(self.i + 1, self.count + 1):
+                if len(self.str[self.i]) == 5 and len(self.str[self.j]) == 5:
+                    if self.str[self.i][2:5] == self.str[self.j][2:5]:
+                        self.table[self.i][0] += f",{self.str[self.j][0]}{self.str[self.j][4]}"
+                        self.table[self.j] = [""] * 10
+
+        # Handle case for D=A
+        for self.i in range(self.count + 1):
+            if len(self.str[self.i]) == 3:
+                for self.j in range(self.count):
+                    if self.str[self.i][2] == self.str[self.j][0]:
+                        self.table[self.j][0] += f",{self.str[self.i][0]}"
+                        self.table[self.i] = [""] * 10
+
+        # Print the table
+        print("\nLabel\tOperator\tLeft\tRight")
+        for row in self.table[:self.count + 1]:
+            print("\t".join(row[:self.count + 2]))
+
+if __name__ == "__main__":
+    dag = DAG()
+    dag.tablestruct()
+
+
+#Design a program to convert any expression into Three Address Code.
+
+def generate_three_address_code(expr):
+    sarr, code, j = [], [], 0
+    print("Saail Chavan KFPMSCCS016")
+    for c in expr:
+        if c.isalnum():  # Operand
+            sarr.append(c)
+        elif c in '+-*/':  # Operator
+            oprgt, oplft = sarr.pop(), sarr.pop()
+            temp_var = f"T{j + 1}"
+            print(f"{temp_var} = {oplft} {c} {oprgt}")
+            sarr.append(temp_var)
+            j += 1
+
+if __name__ == "__main__":
+    expr = input("Enter The Postfix Expression: ")
+    generate_three_address_code(expr)
+
+#Design a program to implement Loop Jamming and Loop Unrolling
+#Loop Jamming 
+import time
+
+def main():
+    array1, array2, array3 = [10, 20, 30], [20, 10, 30], [40, 40, 10]
+
+    t1 = time.time() * 1000
+    for _ in range(10000000):
+        sum_val = sum(array1) + sum(array2) + sum(array3)
+        if sum_val != 210: print(False)
+    t2 = time.time() * 1000
+
+    for _ in range(10000000):
+        sum_val = sum(array1[i] + array2[i] + array3[i] for i in range(len(array1)))
+        if sum_val != 210: print(False)
+    t3 = time.time() * 1000
+
+    print("Saail Chavan KFPMSCCS016")
+    print("Before loop jamming ---->", int(t2 - t1), "ms")
+    print("After loop jamming ---->", int(t3 - t2), "ms")
+
+if __name__ == "__main__":
+    main()
+
+
+
+#Loop Unrolling
+import time
+
+def main():
+    array1 = [0] * 5
+
+    t1 = time.time() * 1000
+    # Version 1: Assign elements in a loop.
+    for _ in range(10000000):
+        for x in range(len(array1)):
+            array1[x] = x
+    t2 = time.time() * 1000
+
+    # Version 2: Unroll the loop.
+    for _ in range(10000000):
+        array1[0], array1[1], array1[2], array1[3], array1[4] = 0, 1, 2, 3, 4
+    t3 = time.time() * 1000
+
+    print("Saail Chavan KFPMSCCS016")
+    print("Time before loop unrolling: -->", int(t2 - t1), "ms")
+    print("Time after loop unrolling: -->", int(t3 - t2), "ms")
+
+if __name__ == "__main__":
+    main()
