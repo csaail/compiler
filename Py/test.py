@@ -21,7 +21,7 @@ def main():
         symbols.add(lhs)
         symbols.update(rhs)
         ans = input("Continue? (y/n): ")
-        if ans.lower() != 'y':
+        if ans.lower() == 'y':
             break
 
     print("\nProductions are:")
